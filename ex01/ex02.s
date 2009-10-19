@@ -1,0 +1,23 @@
+	AREA ex02, CODE, READONLY
+	MAP	0x40003000 
+AA	FIELD	3
+B	FIELD	5
+S	FIELD	7
+	
+	GBLL	test
+;test	SETL	 {TRUE}
+	
+	ENTRY
+	
+	IF	test = {TRUE}
+		LDR	r0, =0x3
+	ELSE
+		LDR r1, =0x33
+	
+	ENDIF
+	
+
+	
+	
+	
+	END
