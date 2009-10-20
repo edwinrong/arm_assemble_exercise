@@ -1,0 +1,42 @@
+Loading addresses into registers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+It is often necessary to load an address into a register. You might need to load the address 
+of a variable, a string constant, or the start location of a jump table.
+Addresses are normally expressed as offsets from the current pc or other register.
+This section describes two methods for loading an address into a register:
+.	load the register directly, see Direct loading with ADR and ADRL.
+.	load the address from a literal pool, see Loading addresses with LDR Rd, =label
+
+
+
+Direct loading with ADR and ADRL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ADR and ADRL pseudo-instructions enable you to generate an address, within a certain 
+range, without performing a data load. ADR and ADRL accept either of the following: 
+.	A program-relative expression, which is a label with an optional offset, where the 
+address of the label is relative to the current pc.
+.	A register-relative expression, which is a label with an optional offset, where the 
+address of the label is relative to an address held in a specified general-purpose 
+register. Refer to Describing data structures with MAP and FIELD directives on 
+page 2-51 for information on specifying register-relative expressions.
+The assembler converts an ADR rn,label pseudo-instruction by generating:
+.	a single ADD or SUB instruction that loads the address, if it is in range
+.	an error message if the address cannot be reached in a single instruction.
+The offset range is ¡À255 bytes for an offset to a non word-aligned address, and ¡À1020 
+bytes (255 words) for an offset to a word-aligned address. (For Thumb, the address must 
+be word aligned, and the offset must be positive.)
+The assembler converts an ADRL rn,label pseudo-instruction by generating:
+.	two data-processing instructions that load the address, if it is in range
+.	an error message if the address cannot be constructed in two instructions.
+The range of an ADRL pseudo-instruction is ¡À64KB for a non word-aligned address and 
+¡À256KB for a word-aligned address. (There is no ADRL pseudo-instruction for Thumb.)
+ADRL assembles to two instructions, if successful. The assembler generates two 
+instructions even if the address could be loaded in a single instruction.
+Refer to Loading addresses with LDR Rd, = label on page 2-35 for information on 
+loading addresses that are outside the range of the ADRL pseudo-instruction.
+
+
+
+
+
